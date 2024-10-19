@@ -57,6 +57,21 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 	HDC hdc = GetDC(window);
 
     while (running) {
-        
+        MSG message;
+
+        while (PeekMessage(&message, window, 0, 0, PM_REMOVE)) {
+			switch (message.message) {
+				case WM_KEYUP:
+				case WM_KEYDOWN: {
+					unsigned int vk_code = (unsigned int)message.wParam;
+					bool is_down = ((message.lParam & (1 << 31)) == 0);
+				}
+					break;
+				default: {
+					TranslateMessage(&message);
+					DispatchMessage(&message);
+				}
+			}
+		}
     }
 }
